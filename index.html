@@ -55,9 +55,9 @@ pre{background:var(--code);color:#e8edf5;padding:16px;border-radius:6px;overflow
   <aside class="side">
     <!-- Sube tu foto al repositorio con el nombre foto.jpg -->
     <img class="avatar" src="foto.jpg" alt="Foto de Rafael Pérez">
-    <h1>Rafael Pérez</h1>
+    <h1>Efrén Rafael Pérez Cabrera</h1>
     <p class="handle">Pumarafa28</p>
-    <p class="bio">Analista de datos jr. Convierto datos en decisiones con SQL, Python y Power BI.</p>
+    <p class="bio">Analista de datos. Convierto datos en decisiones. Pasión por las finanzas</p>
     <a class="btn main" href="CV_Efren_Perez-DataAnalyst.pdf">Descargar CV</a>
     <a class="btn" href="mailto:tucorreo@ejemplo.com">Escríbeme</a>
     <ul class="meta">
@@ -69,8 +69,8 @@ pre{background:var(--code);color:#e8edf5;padding:16px;border-radius:6px;overflow
 
   <main class="card">
     <div class="banner">
-      <h2>Rafael Pérez</h2>
-      <p>Analista de datos y apasionado por los números</p>
+      <h2>Efrén Rafael Pérez Cabrera</h2>
+      <p>Analista de datos y apasionado por los números y finanzas</p>
     </div>
     <div class="body">
 
@@ -99,44 +99,6 @@ pre{background:var(--code);color:#e8edf5;padding:16px;border-radius:6px;overflow
             <dt>Hallazgos</dt><dd>Validé que los resultados coinciden con los calculos hechos a mano y con resultados publicados en papers.</dd>
           </dl>
 <pre><code>-- Ejemplo de código
-import pandas as pd
-import numpy as np
-from scipy import stats
-from statsmodels.stats.multicomp import pairwise_tukeyhsd
-  archivo = "tension_interfacial.csv"  
-
-df = pd.read_csv(archivo)
-
-# Limpiar encabezados y eliminar filas/columnas totalmente vacías
-df.columns = df.columns.astype(str).str.strip()
-df = df.dropna(how="all").dropna(axis=1, how="all")
-
-# La primera columna identifica las muestras
-columna_grupo = df.columns[0]
-columnas_replicas = list(df.columns[1:])
-
-if not columnas_replicas:
-    raise ValueError("El CSV debe tener una columna de muestra y al menos una columna de datos.")
-
-# Convertir las réplicas a números; valores no numéricos se vuelven NaN
-for col in columnas_replicas:
-    df[col] = pd.to_numeric(df[col], errors="coerce")
-
-# ==========================================
-# 2. CONVERTIR A FORMATO LARGO
-# ==========================================
-datos = df.melt(
-    id_vars=columna_grupo,
-    value_vars=columnas_replicas,
-    var_name="Replica",
-    value_name="Resultado"
-)
-
-datos = datos.dropna(subset=[columna_grupo, "Resultado"])
-datos[columna_grupo] = datos[columna_grupo].astype(str).str.strip()
-
-# Eliminar nombres de muestra vacíos
-datos = datos[datos[columna_grupo] != ""]
 
 # ==========================================
 # 3. ESTADÍSTICAS DESCRIPTIVAS
@@ -151,107 +113,7 @@ resumen = (
     .reset_index()
 )
 
-print("\nESTADÍSTICAS DESCRIPTIVAS")
-print(resumen.round(4).to_string(index=False))
 
-# ==========================================
-# 4. PREPARAR LOS GRUPOS
-# ==========================================
-grupos = [
-    grupo["Resultado"].to_numpy()
-    for _, grupo in datos.groupby(columna_grupo, sort=False)
-]
-
-k = len(grupos)
-N = len(datos)
-
-if k < 2:
-    raise ValueError("Se necesitan al menos dos muestras para realizar ANOVA.")
-
-if N <= k:
-    raise ValueError("No hay suficientes observaciones para estimar el error del ANOVA.")
-
-media_global = datos["Resultado"].mean()
-
-# ==========================================
-# 5. ANOVA DE UN FACTOR
-# ==========================================
-SS_entre = sum(
-    len(g) * (np.mean(g) - media_global) ** 2
-    for g in grupos
-)
-
-SS_dentro = sum(
-    np.sum((g - np.mean(g)) ** 2)
-    for g in grupos
-)
-
-SS_total = np.sum(
-    (datos["Resultado"].to_numpy() - media_global) ** 2
-)
-
-DF_entre = k - 1
-DF_dentro = N - k
-DF_total = N - 1
-
-MS_entre = SS_entre / DF_entre
-MS_dentro = SS_dentro / DF_dentro
-
-if MS_dentro == 0:
-    F = np.inf if MS_entre > 0 else np.nan
-    p_value = 0.0 if MS_entre > 0 else np.nan
-else:
-    F = MS_entre / MS_dentro
-    p_value = stats.f.sf(F, DF_entre, DF_dentro)
-
-tabla_anova = pd.DataFrame({
-    "Fuente de variacion": [
-        "Entre grupos (por afuera)",
-        "Dentro de los grupos (por adentro)",
-        "Total"
-    ],
-    "SS": [SS_entre, SS_dentro, SS_total],
-    "DF": [DF_entre, DF_dentro, DF_total],
-    "MS": [MS_entre, MS_dentro, np.nan],
-    "F": [F, np.nan, np.nan],
-    
-})
-
-print("\nTABLA ANOVA")
-print(tabla_anova.round(8).to_string(index=False))
-
-print(f"\nNúmero de muestras: {k}")
-print(f"Número de observaciones válidas: {N}")
-print(f"Número de columnas de réplicas detectadas: {len(columnas_replicas)}")
-print(f"F = {F}")
-print(f"p-value = {p_value}")
-print("hipótesis nula H0 establece que todas las medias poblacionales de los grupos son iguales.")
-if pd.notna(p_value):
-    if p_value < 0.05:
-        print("Conclusión: se rechaza H0; al menos una media difiere.")
-    else:
-        print("Conclusión: no se rechaza H0; no hay evidencia suficiente de diferencias.")
-
-# ==========================================
-# 6. PRUEBA POST HOC DE TUKEY
-# ==========================================
-# Tukey requiere al menos dos grupos y variabilidad residual.
-if k >= 2 and datos.groupby(columna_grupo)["Resultado"].count().ge(2).all():
-    if datos.groupby(columna_grupo)["Resultado"].var().fillna(0).sum() > 0:
-        tukey = pairwise_tukeyhsd(
-            endog=datos["Resultado"],
-            groups=datos[columna_grupo],
-            alpha=0.05
-        )
-
-        print("\nPRUEBA POST HOC DE TUKEY")
-        print(tukey)
-    else:
-        print("\nNo se ejecutó Tukey: no hay variabilidad dentro de las muestras.")
-else:
-    print("\nNo se ejecutó Tukey: cada muestra necesita al menos dos observaciones válidas.")
-
-print("Grupo 1	Grupo 2	Diferencia de medias	Valor p ajustado	Límite inferior	Límite superior	¿Diferencia significativa?")
 </code></pre>
           <div class="embed">
             Aquí va tu dashboard. Reemplaza este texto por:<br>
