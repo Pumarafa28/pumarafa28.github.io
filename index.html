@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rafael Pérez | Analista de Datos Jr</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f7fa;--surface:#fff;--ink:#14213d;--muted:#5b6678;--line:#dde3ec;--accent:#0b6e99;--accent-ink:#fff;--code:#14213d}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1420;--surface:#161e2e;--ink:#e8edf5;--muted:#9aa6ba;--line:#26314a;--accent:#5cc4ee;--accent-ink:#0e1420;--code:#0a0f19}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 Inter,system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px}
+header{padding:72px 0 40px;border-bottom:1px solid var(--line)}
+h1{font:800 clamp(2.4rem,7vw,4rem)/1.05 Fraunces,Georgia,serif;margin:0 0 14px;letter-spacing:-.02em}
+.lead{font-size:1.2rem;color:var(--muted);max-width:56ch;margin:0 0 24px}
+.links a{display:inline-block;margin:0 10px 10px 0;padding:9px 18px;border:1.5px solid var(--accent);border-radius:6px;color:var(--accent);text-decoration:none;font-weight:600}
+.links a.main{background:var(--accent);color:var(--accent-ink)}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section{padding:44px 0;border-bottom:1px solid var(--line)}
+h2{font:600 1.8rem/1.2 Fraunces,Georgia,serif;margin:0 0 18px}
+.skills{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none;margin:0}
+.skills li{background:var(--surface);border:1px solid var(--line);padding:5px 14px;border-radius:99px;font-weight:500;font-size:.95rem}
+.project{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;padding:26px;margin-bottom:26px}
+.project h3{font:600 1.35rem Fraunces,Georgia,serif;margin:0 0 4px}
+.tools{color:var(--muted);font-size:.92rem;margin:0 0 14px}
+.project dt{font-weight:600;margin-top:10px}
+.project dd{margin:2px 0 0;color:var(--muted)}
+pre{background:var(--code);color:#e8edf5;padding:16px;border-radius:6px;overflow-x:auto;font-size:.88rem;line-height:1.5}
+.embed{border:1px dashed var(--line);border-radius:6px;padding:28px;text-align:center;color:var(--muted);margin:14px 0}
+.embed iframe{width:100%;height:520px;border:0}
+footer{padding:36px 0 60px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Rafael Pérez</h1>
+  <p class="lead">Analista de datos jr. Convierto datos en decisiones con SQL, Python y Power BI.</p>
+  <div class="links">
+    <a class="main" href="mailto:tucorreo@ejemplo.com">Escríbeme</a>
+    <a href="https://www.linkedin.com/in/TU-USUARIO">LinkedIn</a>
+    <a href="https://github.com/TU-USUARIO">GitHub</a>
+    <a href="cv.pdf">Descargar CV</a>
+  </div>
+</header>
+
+<section>
+  <h2>Sobre mí</h2>
+  <p>Escribe aquí 3 o 4 líneas: tu formación, qué tipo de datos te gusta analizar y qué tipo de puesto buscas. Ejemplo: "Estudié [carrera] y me formé en análisis de datos con proyectos propios. Busco mi primera posición como analista donde pueda aprender y aportar."</p>
+</section>
+
+<section>
+  <h2>Habilidades</h2>
+  <ul class="skills">
+    <li>SQL</li><li>Python (pandas)</li><li>Excel</li><li>Power BI</li><li>Tableau</li><li>Estadística básica</li><li>Limpieza de datos</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Proyectos</h2>
+
+  <!-- PROYECTO 1: copia este bloque completo para agregar más proyectos -->
+  <article class="project">
+    <h3>Nombre de tu proyecto</h3>
+    <p class="tools">SQL · Python · Tableau</p>
+    <dl>
+      <dt>Problema</dt><dd>¿Qué pregunta querías responder?</dd>
+      <dt>Datos</dt><dd>De dónde vienen y cuántos registros tienen.</dd>
+      <dt>Hallazgos</dt><dd>2 o 3 conclusiones concretas, con números.</dd>
+    </dl>
+<pre><code>-- Ejemplo de código
+SELECT region, SUM(ventas) AS total
+FROM pedidos
+GROUP BY region
+ORDER BY total DESC;</code></pre>
+    <div class="embed">
+      Aquí va tu dashboard. Reemplaza este texto por:<br>
+      &lt;iframe src="LINK-DE-TU-DASHBOARD"&gt;&lt;/iframe&gt;
+    </div>
+    <p><a href="https://github.com/TU-USUARIO/TU-REPO">Ver código en GitHub</a></p>
+  </article>
+  <!-- FIN PROYECTO 1 -->
+
+</section>
+
+<footer>
+  <p>Contacto: tucorreo@ejemplo.com</p>
+</footer>
+
+</div>
+</body>
+</html>
